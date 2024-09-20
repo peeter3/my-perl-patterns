@@ -20,14 +20,16 @@ my $slurp = '';
 open( my $input_fh, "< $encoding", $input_filename )
   or croak
   "$PROGRAM_NAME: Couldn't open $input_filename in read mode: $OS_ERROR";
-{
-    # Localize the variable in the shortest scope possible.
-    # $INPUT_RECORD_SEPARATOR is newline by default.
-    local $INPUT_RECORD_SEPARATOR = undef;    # Enable localized slurp mode
-    # Slurp everything, including newlines, into a single string.
-    $slurp = <$input_fh>;   
-    my @short_words = split( /\n/, $slurp );
-    print Dumper \@short_words;
-}
+
+# In list context, `<>` reads the whole file,
+# line by line.
+my @short_words = <$input_fh>;
+
+# I don't know why, but we need to chomp every
+# element in the list.
+chomp @short_words;
+
+# Now we have a clean list.
+print Dumper \@short_words;
 close $input_fh;
 
