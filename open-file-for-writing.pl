@@ -14,6 +14,6 @@ my $output_filename = './open-file-for-writing-out.txt';
 my $encoding = ':encoding(UTF-8)';
 
 open($output_fh, "> $encoding", $output_filename) or
-    croak "$0: Couldn't open $output_filename in write-open mode: $!";
+    croak "$PROGRAM_NAME: Couldn't open $output_filename in write-open mode: $OS_ERROR";
 say $output_fh 'ZZZ';
 close($output_fh);
